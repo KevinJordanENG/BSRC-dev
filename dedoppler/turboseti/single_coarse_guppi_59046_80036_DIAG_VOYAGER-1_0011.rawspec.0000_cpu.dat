@@ -7,4 +7,4 @@
 # --------------------------
 # Top_Hit_# 	Drift_Rate 	SNR 	Uncorrected_Frequency 	Corrected_Frequency 	Index 	freq_start 	freq_end 	SEFD 	SEFD_freq 	Coarse_Channel_Number 	Full_number_of_hits 	
 # --------------------------
-001	 -0.353960	192.893814	   8419.542731	   8419.542731	659989	   8419.545997	   8419.539470	0.0	      0.000000	0	439	
+001	 -0.353960	192.893799	   8419.542731	   8419.542731	659989	   8419.545997	   8419.539470	0.0	      0.000000	0	439	

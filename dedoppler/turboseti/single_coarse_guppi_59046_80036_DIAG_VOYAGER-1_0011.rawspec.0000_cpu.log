@@ -1,0 +1,11 @@
+
+turbo_seti version 2.0.18
+blimpy version 2.0.11
+h5py version 2.10.0
+
+Starting ET search using ./single_coarse_guppi_59046_80036_DIAG_VOYAGER-1_0011.rawspec.0000.h5
+Parameters: datafile=./single_coarse_guppi_59046_80036_DIAG_VOYAGER-1_0011.rawspec.0000.h5, max_drift=8.0, min_drift=0.0001, snr=25.0, out_dir=./, coarse_chans=, flagging=False, n_coarse_chan=None, kernels=None, gpu_backend=False, precision=1, append_output=False, log_level_int=20, obs_info={'pulsar': 0, 'pulsar_found': 0, 'pulsar_dm': 0.0, 'pulsar_snr': 0.0, 'pulsar_stats': array([0., 0., 0., 0., 0., 0.]), 'RFI_level': 0.0, 'Mean_SEFD': 0.0, 'psrflux_Sens': 0.0, 'SEFDs_val': [0.0], 'SEFDs_freq': [0.0], 'SEFDs_freq_up': [0.0]}
+Top hit found! SNR 192.893799, Drift Rate -0.353960, index 659989
+
+===== Search time: 0.39 minutes
+===== END OF LOG
