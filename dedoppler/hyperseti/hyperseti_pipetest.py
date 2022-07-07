@@ -7,10 +7,12 @@ from astropy import units as u
 
 from hyperseti import dedoppler
 from hyperseti import hitsearch
+from hyperseti import run_pipeline
 from hyperseti import find_et
+from hyperseti.io import from_h5
 from hyperseti.plotting import imshow_waterfall, imshow_dedopp
 
-file = '/mnt_home/kjordan/JuliaWork/single_coarse_guppi_59046_80036_DIAG_VOYAGER-1_0011.rawspec.0000.h5'
+darr = from_h5('single_coarse_guppi_59046_80036_DIAG_VOYAGER-1_0011.rawspec.0000.h5')
 
 def whole_pipeline():
     config = {
@@ -34,16 +36,15 @@ def whole_pipeline():
             'min_fdistance': 100
         },
         'pipeline': {
-            'n_boxcar': 4,
-            'merge_boxcar_trials': True,
-            'n_blank': 2
+            'n_boxcar': 1,
+            'merge_boxcar_trials': False
         }
     }
     
     tic = time.perf_counter()
-    dframe = find_et(file, config, gulp_size=2**18, filename_out='/mnt_home/kjordan/JuliaWork/hyper_hits.csv')
+    run_pipeline(darr, config)
     toc = time.perf_counter()
-    times = toc - tic
-    print(times)
+    t = toc - tic
+    print(t)
 
 whole_pipeline()
