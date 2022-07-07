@@ -1,0 +1,17 @@
+[2022-07-06 21:31:57.117609] INFO: hyperseti.utils: attach_gpu_device: Using device ID (0)
+[2022-07-06 21:31:57.651750] INFO: hyperseti.utils: on_gpu inner <run_pipeline> Converting ndarray arg data to cupy..
+[2022-07-06 21:31:58.870998] INFO: hyperseti.utils: attach_gpu_device: Using device ID (0)
+[2022-07-06 21:32:18.924863] INFO: hyperseti.peak: <find_peaks_argrelmax> elapsed time: 35.6107 ms
+[2022-07-06 21:32:18.927928] INFO: hyperseti.hyperseti: run_pipeline: Elapsed time: 20.06s; 0 hits found
+[2022-07-06 21:32:18.965355] INFO: hyperseti.utils: on_gpu inner <run_pipeline> Converting ndarray arg data to cupy..
+[2022-07-06 21:32:18.968771] INFO: hyperseti.utils: attach_gpu_device: Using device ID (0)
+[2022-07-06 21:32:20.167312] INFO: hyperseti.peak: <find_peaks_argrelmax> elapsed time: 7.7136 ms
+[2022-07-06 21:32:20.169064] INFO: hyperseti.hyperseti: run_pipeline: Elapsed time: 1.20s; 0 hits found
+[2022-07-06 21:32:20.193350] INFO: hyperseti.utils: on_gpu inner <run_pipeline> Converting ndarray arg data to cupy..
+[2022-07-06 21:32:20.195868] INFO: hyperseti.utils: attach_gpu_device: Using device ID (0)
+[2022-07-06 21:32:21.364363] INFO: hyperseti.peak: <find_peaks_argrelmax> elapsed time: 20.5278 ms
+[2022-07-06 21:32:21.393203] INFO: hyperseti.hyperseti: run_pipeline: Elapsed time: 1.20s; 3 hits found
+[2022-07-06 21:32:21.415790] INFO: hyperseti.utils: on_gpu inner <run_pipeline> Converting ndarray arg data to cupy..
+[2022-07-06 21:32:21.418121] INFO: hyperseti.utils: attach_gpu_device: Using device ID (0)
+[2022-07-06 21:32:22.574775] INFO: hyperseti.peak: <find_peaks_argrelmax> elapsed time: 7.6990 ms
+[2022-07-06 21:32:22.576158] INFO: hyperseti.hyperseti: run_pipeline: Elapsed time: 1.16s; 0 hits found
