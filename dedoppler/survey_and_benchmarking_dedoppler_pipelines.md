@@ -22,6 +22,8 @@ Codebase: [https://github.com/lacker/seticore](https://github.com/lacker/seticor
 
 ## Interface and User Experience
 
+
+
 ### turboSETI
 
 ### hyperSETI
