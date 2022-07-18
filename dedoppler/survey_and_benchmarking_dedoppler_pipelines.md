@@ -344,7 +344,7 @@ The initial benchmarking involved collection of runtimes for a simplified input 
 
 For this given input file, each pipeline was run 10 times. The parameters of maximum and minimum drift rate were set at 8.0 and 0.0001 respectively. The avarage runtime was calulated and reported in the plot shown below.
 
-![Single Channel Benchmark Plot](/home/kjordan/juliaNBs/dedoppler/plot_single_cmd.png)
+![Single Channel Benchmark Plot](/KevinJordanENG/BSRC-dev/dedoppler/plot_single_cmd.png)
 
 As expected, the CPU performance was the slowest, with significant improvement by all GPU implementations. The Python GPU implementations displayed comparable runtimes with SETIcores low-level CUDA and C++ implementation demonstrating the expected improvement in performance. While the turboSETI and hyperSETI Python implementations were expected to be slower as compared to SETIcore, what was unexpected was their overall similar runtimes given the significant difference in theoretical computational complexity between the Brute-Force and Taylor-Tree algorithms.
 
