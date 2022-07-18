@@ -9,4 +9,4 @@ plot(bar(x=tool, y=val, text=val, textposition="auto"))
 #t_dedopp_avg = 3.41690416
 #t_hits_avg = 2.51472390
 #t_out_avg = 0.14411995
-
+#t_tot = 6.08667751
