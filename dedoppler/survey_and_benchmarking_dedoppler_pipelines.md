@@ -354,7 +354,7 @@ The input was changed to a multi-channel and larger dataset to test the pipeline
 
 As this input file was much larger, a reduced number of trial runs were performed on the CPU implementation of turboSETI due to it's extended runtime. Two trials of this turboSETI CPU version were run, with 10 trial runs performed with all other GPU pipelines. The parameters of maximum and minimum drift rate were set at 8.0 and 0.0001 respectively. The avarage runtime was calulated and reported in the plot shown below.
 
-![Multi-Channnel Benchmark Plot](/home/dedoppler/plot_multi_cmd.png)
+![Multi-Channnel Benchmark Plot](/dedoppler/plot_multi_cmd.png)
 
 Similar to the single channel reduced dataset above, the CPU implementation was demonstrated to be the least performant. What was different as compared to the smaller dataset was the comparative decrease in performace of hyperSETI as compared to turboSETI's GPU implementation.
 
