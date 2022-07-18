@@ -354,7 +354,7 @@ The input was changed to a multi-channel and larger dataset to test the pipeline
 
 As this input file was much larger, a reduced number of trial runs were performed on the CPU implementation of turboSETI due to it's extended runtime. Two trials of this turboSETI CPU version were run, with 10 trial runs performed with all other GPU pipelines. The parameters of maximum and minimum drift rate were set at 8.0 and 0.0001 respectively. The avarage runtime was calulated and reported in the plot shown below.
 
-![Multi-Channnel Benchmark Plot](/home/kjordan/juliaNBs/dedoppler/plot_multi_cmd.png)
+![Multi-Channnel Benchmark Plot](/home/dedoppler/plot_multi_cmd.png)
 
 Similar to the single channel reduced dataset above, the CPU implementation was demonstrated to be the least performant. What was different as compared to the smaller dataset was the comparative decrease in performace of hyperSETI as compared to turboSETI's GPU implementation.
 
@@ -368,11 +368,11 @@ To visualize radio observations, a waterfall plot is often used. This waterfall 
 
 The waterfall plot of the single coarse channel input data was included below.
 
-![Single Channel Waterfall Input Plot](/home/kjordan/dedoppler/pltw16x65536.png)
+![Single Channel Waterfall Input Plot](/dedoppler/pltw16x65536.png)
 
 The waterfall plot of the multi-channel input data was included below.
 
-![Multi-Channel Waterfall Input Plot](/home/kjordan/dedoppler/pltwsingle_coarse_guppi_0011.png)
+![Multi-Channel Waterfall Input Plot](/dedoppler/pltwsingle_coarse_guppi_0011.png)
 
 ### Output Comparison
 
@@ -400,13 +400,13 @@ While all higher than the SNR threshold of 25, there was inconsistency in these 
 
 Using the given frequency window provided in the output report of turboSETI, a waterfall plot of the interesting signal was included below.
 
-![Output Waterfall Plot turboSETI](/home/kjordan/juliaNBs/dedoppler/turboseti/pltwsingle_coarse_guppi_0011_hit1.png)
+![Output Waterfall Plot turboSETI](/dedoppler/turboseti/pltwsingle_coarse_guppi_0011_hit1.png)
 
 Voyager-1's signal can be clearly seen, demonstrating the proper function of the pipeline.
 
 As hyperSETI and SETIcore provided only a central frequency, a small window of +/- 200 Hz about this cental frequency was used to generate the below waterfall plot.
 
-![Output Waterfall Plot hyper/core](/home/kjordan/dedoppler/seticore/pltwsingle_coarse_core_out.png)
+![Output Waterfall Plot hyper/core](/dedoppler/seticore/pltwsingle_coarse_core_out.png)
 
 Again, Voyager-1's signal can be clearly seen, demonstrating the proper function of the pipeline.
 
@@ -416,11 +416,11 @@ As expected, there were no meaningful results reported for the pipeline runs giv
 
 SETIcore and hyperSETI produced empty report files when given the dataset lacking doppler drifting signals. However, turboSETI's report contained lmany isted hits. This was likely resulted due to the way turboSETI preprocessed input data and the physical instrumentation used in collecting the radio observation. This was suggested by the 3 MHz cadence of these reported hits. When the frequencies associated with these reported hits were investigated, there was found to be no signal present. A waterfall plot showing this was included below.
 
-![Empty turboSETI Waterfall Output](/home/kjordan/dedoppler/turboseti/pltw16x65536_empty.png)
+![Empty turboSETI Waterfall Output](/dedoppler/turboseti/pltw16x65536_empty.png)
 
 hyperSETI reported two additional signal of interest hits as compared to turboSETI and hyperSETI. These were determined to be the side two data communication sidebands of the main carrier signal found above by turboSETI and SETIcore. This demonstrated that hyperSETI's hit-search algorithm was of greater sensitivity and different in implementation than the other pipelines. As these two sideband signals are relatively close to the carrier signal's frequency, it is possible that these were eliminated as duplicate hits in neighboring frequency bins through the second iterative step of both turboSETI and SETIcore. A waterfall plot of one of these sidebands was included below.
 
-![Sideband Signal hyperSETI](/home/kjordan/dedoppler/hyperseti/pltwsingle_coarse_hyper_out.png)
+![Sideband Signal hyperSETI](/dedoppler/hyperseti/pltwsingle_coarse_hyper_out.png)
 
 ## Conclusions
 
