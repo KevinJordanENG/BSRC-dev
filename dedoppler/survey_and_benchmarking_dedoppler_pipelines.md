@@ -4,7 +4,7 @@ The work presented in this document provides a survey and analysis of dedoppler 
 
 These pipeleines make use of a dedoppler search algorithm to identify narrowband technosignatures exhibiting doppler drift. Additionally, the pipelines perform the file handling, data preprocessing, hit-search for identifying potential signals of interest, and generation of output data files for these potential signals of interest.
 
-The purpose of this document is to provide familiarity and a comparison of the capabilities, limitations, and performance between these pipelines. This includes a review of the interfacing options of these tools & experience using them, an analysis of the algorithms used, benchmarking and performance comparisons, and verification of output similarity.
+The purpose of this document is to provide familiarity and a comparison of the capabilities, limitations, and performance between these pipelines. This included a review of the interfacing options of these tools & experience using them, an analysis of the algorithms used, benchmarking and performance comparisons, and verification of output similarity.
 
 The three SETI software pipelines surveyed were turboSETI, hyperSETI, and SETIcore. Their working repositories can be found below.
 
@@ -32,7 +32,7 @@ Fundamental to the utility of software is its interface and the challenges (or l
 
 ### turboSETI
 
-###### Interface Options
+#### Interface Options
 
 There were two interface options available for turboSETI: a command line utility and as a Python package.
 
@@ -99,13 +99,13 @@ fdop = FindDoppler(datafile=my_HDF5, max_drift=8, snr=25, ...)
 fdop.search()
 ```
 
-Similar to the command line utility, the `FindDoppler` object had optional arguments that allowed flexibility to the end user of how to process thi input data.
+Similar to the command line utility, the `FindDoppler` object had optional arguments that allowed flexibility to the end user of how to process the input data.
 
-However, it was found that there was not much modularity within the main code blocks (I/O, dedoppler, hit-search) and that these functions were not easily called independently. While this simplifies its usage for those interested only in the results of running the whole pipeline, it made the analysis of the individual algorithms performance more challenging as discussed in the Algorithm Analysis section below. 
+However, it was found that there was minimal modularity within the main code blocks (I/O, dedoppler, hit-search) and that these functions were not easily called independently. While this simplified its usage for those interested only in the results of running the whole pipeline, it made the analysis of the individual algorithms performance more challenging as discussed in the Algorithm Analysis section below. 
 
-###### Install
+#### Install
 
-turboSETI has numerous dependencies. A virtual environment could be created to manage this, or the packages could be added individually. Many of these packages are standard and likely already installed for data processing and astronomy allpications using Python. The full list is as follows.
+turboSETI was found to have numerous dependencies. A virtual environment could be created to manage this, or the packages could be added individually. Many of these packages are standard and likely already installed for data processing and astronomy allpications using Python. The full list is as follows.
 
 - Python 3.7+
 - astropy
@@ -122,19 +122,19 @@ turboSETI has numerous dependencies. A virtual environment could be created to m
 
 All data processing was performed on the Breakthrough Listen servers. As all dependencies and command line utility were already installed on these machines, the installation procedures were not tested. Given the above information, the required time and ease is left to the reader to infer based on their individual computing system and experience.
 
-###### Documentation & Codebase
+#### Documentation & Codebase
 
-As turboSETI is the workhorse getting the most usage out of the three pipelines examined, the documentation was the most developed and complete. The README provided a fairly thourough walkthrough of installation, details on how to run the pipeline both as command line and as a python package, and some demo output results. This enabled quick startup to the usage of this software.
+As turboSETI is the workhorse getting the most usage out of the three pipelines examined, the documentation was the most developed and complete. The README provided a fairly thorough walkthrough of installation, details on how to run the pipeline both as command line and as a python package, and some demo output results. This enabled quick startup to the usage of this software.
 
-The GitHub repository also included a link to complete documentation at <https://turbo-seti.readthedocs.io>. This was very thourough defining functions, their parameters, and descriptions. Info was available for the dedoppler search, data handling, file writing, needed kernels, helper functions, and hit-search. While complete, information about how to use the main functions independently while maintaining desired performance was lacking. This was likeley due to above mentioned general usage case where the user is interested in running the whole pipeline to examine resulting output.
+The GitHub repository also included a link to complete documentation at <https://turbo-seti.readthedocs.io>. This was very thorough defining functions, their parameters, and descriptions. Info was available for the dedoppler search, data handling, file writing, needed kernels, helper functions, and hit-search. While complete, information about how to use the main functions independently while maintaining desired performance was lacking. This was likeley due to above mentioned general usage case where the user is interested in running the whole pipeline to examine resulting output.
 
 As the codebase was almost entireley Python, the scripts were easy to understand and easily digestible.
 
 ### hyperSETI
 
-###### Interface Options
+#### Interface Options
 
-There were two interface options available for turboSETI: a command line utility and as a Python package. Due to version specific dependencies, a conda virtual environment was necessary to run hyperSETI. Further information about this is presented below in the Install section.
+There were two interface options available for hyperSETI: a command line utility and as a Python package. Due to version specific dependencies, a conda virtual environment was necessary to run hyperSETI. Further information about this was presented below in the Install section.
 
 **Command Line Utility**: This interfacing option allowed a straightforward and streamlied option to run the entire hyperSETI pipeline. The usage was simple with many optional arguemnts. Additionally, the command line utility offered a well built "help" menu with the passing of the `-h` flag as shown below.
 
@@ -208,11 +208,11 @@ dframe = find_et(my_HDF5, config)
 
 Above, note that `run_pipeleine()` and `find_et()` require a configuration argument of a dictionary object. This was simple to implement and contained options for many of the desired parameters needed to process data appropriately.
 
-The dedoppler function above also supports multiple optional arguments allowing the same flexibility as the command line utility.
+The dedoppler function above also supported multiple optional arguments allowing the same flexibility as the command line utility.
 
-###### Install
+#### Install
 
-hyperSETI does have dependencies, though fewer than turboSETI. What makes the installation more challenging is the specific versions needed for each package. Therefore, a conda virtual environment was used as is recommended. Some of the critical dependencies are listed below.
+hyperSETI does have dependencies, though fewer than turboSETI. What made the installation more challenging was the specific versions needed for each package. Therefore, a conda virtual environment was used as is recommended. Some of the critical dependencies were listed below.
 
 - Python 3.7+
 - pandas
@@ -225,15 +225,15 @@ hyperSETI does have dependencies, though fewer than turboSETI. What makes the in
 
 All data processing was performed on the Breakthrough Listen servers. As all dependencies and command line utility were already installed on these machines as well as the conda virtual environment setup, the installation procedures were not tested. Given the above information, the required time and ease is left to the reader to infer based on their individual computing system and experience.
 
-###### Documentation & Codebase
+#### Documentation & Codebase
 
 The documentation provided for hyperSETI was severely lacking. A brief README was included giving a small example script for the main four functions discussed above, and a few installation tips. As the codebase is still in beta, this was understandable but less than ideal. This increased the time needed to sucessfully run the software. There was no readthedocs detailing functions provided, and code commenting was minimal.
 
-At a minimum the codebase was entireley Python, and the scripts easy to understand and easily digestible. Additionally, the implementation of each of the main algorithm blocks as discrete functions allowed clarity in their functioning.
+At a minimum the codebase was almost entireley Python, and the scripts easy to understand and easily digestible. Additionally, the implementation of each of the main algorithm blocks as discrete functions allowed clarity in their functioning.
 
 ### SETIcore
 
-###### Interface Options
+#### Interface Options
 
 **Command Line**: Given the C++ and CUDA implementation, SETIcore only supported a command line interface either as a command line utility or compiled program. The compiled program was more limited in options, however very simple in usage allowing quick processing. The command line utility provided more flexibility and a few optional arguments allowing the data to processed to the users desired specifications. With the optional `-h` flag, these optional arguments were displayed in a "help" menu as shown below.
 
@@ -252,7 +252,7 @@ seticore options:
   -s [ --snr ] arg (=25)           minimum SNR to report a hit
 ```
 
-###### Install
+#### Install
 
 Install instructions were provided for the compiled program version of SETIcore. There were limited dependencies for SETIcore, with a simple command needed to install them. 
 
@@ -278,59 +278,59 @@ From there, the SETIcore pipeline program could be called on the desired HDF5 fi
 
 All data processing was performed on the Breakthrough Listen servers. As the command line utility was already installed on these machines, the installation procedures were not tested. Given the above information, the required time and ease is left to the reader to infer based on their individual computing system and experience.
 
-###### Documentation & Codebase
+#### Documentation & Codebase
 
-Documentation for SETIcore was lacking, and included only a brief README detailing installation and some troubleshooting tips. No readthedocs provided for individual functions and code files. However, all code was very well commented providing insight into the function parameter, algorithm function, and external linkage.
+Documentation for SETIcore was lacking, and included only a brief README detailing installation and some troubleshooting tips. No readthedocs was provided for individual functions and code files. However, all code was very well commented providing insight into the function parameters, algorithm function, and external linkage.
 
-The implementation being in C++ and CUDA, the codebase was noticably obfuscated compared to the other two pipelines' Python implementation. Using CUDA directly allows the manual control of how the algorithm executes on the GPU and increases performance. However, to those not familiar with CUDA the source code files can be fairly cryptic. As SETIcore is a compiled program, utilizing any specific function's source code and header files independently of the main pipeline proved difficult.
+The implementation being in C++ and CUDA, the codebase was noticably obfuscated compared to the other two pipelines' Python implementation. Using CUDA directly allowed the manual control of how the algorithm executes on the GPU and increases performance. However, to those not familiar with CUDA the source code files can be fairly cryptic. As SETIcore is a compiled program, utilizing any specific function's source code and header files independently of the main pipeline proved difficult.
 
 ## Algorithm Analysis
 
-Within these doppler drift SETI search pipelines, there are two main algorithm blocks that perform the heavy lifting: the dedoppler algorithm, and the hit-search algorithm. While the file handling and report generation are integral components of the pipelines, the proportional runtime and computational complexity of these are very low comparative to the dedoppler and hit-search blocks. Below, the implementations used in each of the pipeleines were explored.
+Within these doppler drift SETI search pipelines, there were two main algorithm blocks that perform the heavy lifting: the dedoppler algorithm, and the hit-search algorithm. While the file handling and report generation are integral components of the pipelines, the proportional runtime and computational complexity of these were very low comparative to the dedoppler and hit-search blocks. Below, the implementations used in each of the pipelines were explored.
 
 ### turboSETI
 
-###### Dedoppler
+#### Dedoppler
 
-turboSETI makes use of the Taylor-Tree algorithm. Originally devised by Taylor (1974), the algorithm was intended to be applied to dispered radio emissions. Dispersed and doppler shifted narrowband radio signals exhibit similar characteristics. The main differences are the quadratic nature of the signal curve for dispersed signals and linear nature of doppler drifting signals, as well as the inverse relations of frequency and time to the signal charactereistics. Therefore, mathematically the problem of dedispersion and dedoppler are able to use the same algorithmic solution with minor modifications to account for above mentioned differences.
+turboSETI made use of the Taylor-Tree algorithm. Originally devised by Taylor (1974), the algorithm was intended to be applied to dispered radio emissions. Dispersed and doppler shifted narrowband radio signals exhibit similar characteristics. The main differences are the quadratic nature of the signal curve for dispersed signals and linear nature of doppler drifting signals, as well as the inverse relations of frequency and time to the signal charactereistics. Therefore, mathematically the problem of dedispersion and dedoppler are able to use the same algorithmic solution with minor modifications to account for above mentioned differences.
 
 The Taylor-Tree algorithm takes the naturally O(N * N * N) computational complexity of the problem, and through regularization reduces the complexity to O(N * N * log N). The regularization allows shared usage of trial drift rates and reduces redundant calculations (Taylor 1974). This provides improved theoretical performance as compared to the base level Brute-Force algorithm.
 
-As turboSETI included options to run on both CPU and GPU, there were two implementations of the Taylor-Tree algorithm respectively.
-- **CPU**: Implementation utilizes a Python kernel based on Numba just-in-time compilation. Numba translates Python to optimized machine code at runtime maximizing potential performance. While the high-level nature of Python usually reduces performance, the use of a numba kernel allowed for maximized algorithm performance. Kernel script can be found at <https://github.com/UCBerkeleySETI/turbo_seti/blob/master/turbo_seti/find_doppler/kernels/_taylor_tree/_core_numba.py>.
-- **GPU**: Implementation utilizes a Python kernel script using cupy. cupy is an array library that utilizes CUDA Toolkit libraries and allow the running of the Taylor-Tree algorithm on the GPU. This GPU implementation made use of the improvements in performace possible from parallelization of the Taylor-Tree algorithm. While the use of cupy is streamlined and simple, all functions and GPU usage were handled automatically. While user friendly, options for configuring how the algorithm is implemented to run on the GPU was lacking. Kernel script can be found at <https://github.com/UCBerkeleySETI/turbo_seti/blob/master/turbo_seti/find_doppler/kernels/_taylor_tree/_core_cuda.py>.
+As turboSETI included options to run on both CPU and GPU, there were two implementations of the Taylor-Tree algorithm.
+- **CPU**: Implementation utilized a Python kernel based on Numba just-in-time compilation. Numba translates Python to optimized machine code at runtime maximizing potential performance. While the high-level nature of Python usually reduces performance, the use of a numba kernel allowed for maximized algorithm performance. Kernel script can be found at <https://github.com/UCBerkeleySETI/turbo_seti/blob/master/turbo_seti/find_doppler/kernels/_taylor_tree/_core_numba.py>.
+- **GPU**: Implementation utilized a Python kernel script using cupy. cupy is an array library that utilizes CUDA Toolkit libraries and allow the running of the Taylor-Tree algorithm on the GPU. This GPU implementation made use of the improvements in performace possible from parallelization of the Taylor-Tree algorithm. While the use of cupy is streamlined and simple, all functions and GPU usage were handled automatically. While user friendly, options for configuring how the algorithm is implemented to run on the GPU was lacking. Kernel script can be found at <https://github.com/UCBerkeleySETI/turbo_seti/blob/master/turbo_seti/find_doppler/kernels/_taylor_tree/_core_cuda.py>.
 
-###### Hit-Search
+#### Hit-Search
 
-The hit-search algorithm implemented by turboSETI is a two-step iterative process. The first step involves iteration through each given spectral resolution [freq_start:freq_end] and identifying hits above a certain signal-to-noise-ratio (SNR). The second step involves iterating through all of the identified hits from the first step and determining the "top" hit between nearby frequency channels. The main Python script containing both steps of iterations can be found at <https://github.com/UCBerkeleySETI/turbo_seti/blob/master/turbo_seti/find_doppler/find_doppler.py>. The function named `hitsearch()` found at line 602 handles the first step's iteration, and the function named `tophitsearch()` found at line 687 performs the second step's iteration. The complexity of the entire algorithm was O(N * log N) given the linear search nature of the first step and the reduced dataset of only a few candidate hits in the second step.
-- **1st Step**: The identification of hits is performed by subtracting the given median and dividing that result by the given standar deviation. Any resulting SNR above the set threshold is kept for the second step. As the inital step of iteration through each frequency channel is computationally larger than the second step, an optional GPU kernel is included in addition to the CPU implementation. Unlike the dedoppler algorithm above, this kernel was implemented directly CUDA. This provided performance benefit and more direct control of GPU execution, while having the drawback of being less easily understandable code for those unfamiliar. This CUDA kernel script can be found at <https://github.com/UCBerkeleySETI/turbo_seti/blob/master/turbo_seti/find_doppler/kernels/_hitsearch/kernels.cu>.
-- **2nd Step**: Using the maximum drift rate and resolution specified, the second step first determines the maximum distance or number of bins apart two overlapping hits can be. Then, a window with dimensions determined by the maximum distance is calculated. The hits found in the first step are then iterated through to identify those with the largest SNR within this window of nearby frequency channels. This second step eliminates redundancy in reporting of hits in adjacent bins. As these windows have been downsampled from the full dataset, turboSETI includes only a CPU implementation of this part of the hit-search algorithm.
+The hit-search algorithm implemented by turboSETI was a two-step iterative process. The first step involved iteration through each given spectral resolution [freq_start:freq_end] and identifying hits above a certain signal-to-noise-ratio (SNR). The second step involved iterating through all of the identified hits from the first step and determining the "top" hit between nearby frequency channels. The main Python script containing both steps of iterations can be found at <https://github.com/UCBerkeleySETI/turbo_seti/blob/master/turbo_seti/find_doppler/find_doppler.py>. The function named `hitsearch()` found at line 602 handled the first step's iteration, and the function named `tophitsearch()` found at line 687 performed the second step's iteration. The complexity of the entire algorithm was O(N * log N) given the linear search nature of the first step and the reduced dataset of only a few candidate hits in the second step.
+- **1st Step**: The identification of hits was performed by subtracting the given median and dividing that result by the given standar deviation. Any resulting SNR above the set threshold was kept for the second step. As the inital step of iteration through each frequency channel is computationally larger than the second step, an optional GPU kernel was included in addition to the CPU implementation. Unlike the dedoppler algorithm above, this kernel was implemented directly CUDA. This provided performance benefit and more direct control of GPU execution, while having the drawback of being less easily understandable code for those unfamiliar. This CUDA kernel script can be found at <https://github.com/UCBerkeleySETI/turbo_seti/blob/master/turbo_seti/find_doppler/kernels/_hitsearch/kernels.cu>.
+- **2nd Step**: Using the maximum drift rate and resolution specified, the second step first determined the maximum distance or number of bins apart two overlapping hits can be. Then, a window with dimensions determined by the maximum distance was calculated. The hits found in the first step are then iterated through to identify those with the largest SNR within this window of nearby frequency channels. This second step eliminated redundancy in reporting of hits in adjacent bins. As these windows had been downsampled from the full dataset, turboSETI included only a CPU implementation of this part of the hit-search algorithm.
 
 ### hyperSETI
 
-###### Dedoppler
+#### Dedoppler
 
-The dedoppler algorithm used by hyperSETI is the Brute-Force approach. This approach does not perform any optimization of the algorithm itself and instead opts for the natural O(N * N * N) computational complexity.
+The dedoppler algorithm used by hyperSETI was the Brute-Force approach. This approach does not perform any optimization of the algorithm itself and instead opts for the natural O(N * N * N) computational complexity.
 
-While the algorithm implemented by hyperSETI has the lowest theoretical performace, the pipeline is natively GPU and relies on this parallelization to acheive better performace. The implementation uses a Python kernel script using cupy similar to turboSETI. Unlike turboSETI however, the kernel has been developed in CUDA passing this directly to the cupy RawKernel object. This allowed the manipulation and specification of GPU execution while providing easy interfacing with the rest of the Python implemented pipeline. Kernel script can be found at <https://github.com/UCBerkeleySETI/hyperseti/blob/master/hyperseti/kernels/dedoppler.py>.
+While the algorithm implemented by hyperSETI had the lowest theoretical performace, the pipeline is natively GPU and relies on this parallelization to acheive better performace. The implementation used a Python kernel script using cupy similar to turboSETI. Unlike turboSETI however, the kernel has been developed in CUDA passing this directly to the cupy RawKernel object. This allowed the manipulation and specification of GPU execution while providing easy interfacing with the rest of the Python implemented pipeline. Kernel script can be found at <https://github.com/UCBerkeleySETI/hyperseti/blob/master/hyperseti/kernels/dedoppler.py>.
 
-###### Hit-Search
+#### Hit-Search
 
-The hit-search algorithm implemented in hyperSETI uses a two-step process. The first step uses a maxima finding function. The second step involves iterating through all of the identified hits from the first step and determining the "top" hit between nearby frequency channels. The main Python script for the hit-search algorithm can be found at <https://github.com/UCBerkeleySETI/hyperseti/blob/master/hyperseti/hits.py>. The function named `hitsearch()` found at line 135 handles the first step's maxima finding, and the function named `merge_hits()` found at line 52 performs the second step's iteration. As the internal functioning of the maxima finding function `argrelmax()` imported from cusignal could only be speculated, an inferrence of theoretical computational complexity was not possible. However, as in turboSETI above the second step operates on a reduced dataset of only found hits and can therefore be assumed to be of approximately O(log N) in coplexity. Therefore, the entire algorithms computational complexity's worst case should be O(N * log N).
-- **1st Step**: The initial finding of hits over the specified SNR is handled entirely by `argrelmax()` imported from cusignal. The relative maxima is computed, a mask of data greater than the SNR threshold is computed, and any relative maxima above this theshold are returned. This maxima finding removes the possibility of returning a plateau as the `argrelmax()` function specifically finds relative maxima. This first step is executed on the GPU with a script that can be found at <https://github.com/UCBerkeleySETI/hyperseti/blob/master/hyperseti/peak.py>.
-- **2nd Step**: The second step took identified hits from the first step, identified channels and driftrates within tolerances, and returned the hit with the max SNR. The grouping of channels was perfomed as "boxcars". The boxcar is the same concept as the window calculation performed in turboSETI for maximum possible drift rate and number of frequency bins over. However, unlike turboSETI and SETIcore where the width is set by default to 1, hyperSETI allowed the user to specify the boxcar width. This allowed for greater specificity in searching for particular signal bandwidths. As this second step operates only on the hits found in the first step, the implementation was CPU based.
+The hit-search algorithm implemented in hyperSETI used a two-step process. The first step used a maxima finding function. The second step involved iterating through all of the identified hits from the first step and determining the "top" hit between nearby frequency channels. The main Python script for the hit-search algorithm can be found at <https://github.com/UCBerkeleySETI/hyperseti/blob/master/hyperseti/hits.py>. The function named `hitsearch()` found at line 135 handled the first step's maxima finding, and the function named `merge_hits()` found at line 52 performed the second step's iteration. As the internal functioning of the maxima finding function `argrelmax()` imported from cusignal could only be speculated, an inferrence of theoretical computational complexity was not possible. However, as in turboSETI above the second step operated on a reduced dataset of only found hits and can therefore be assumed to be of approximately O(log N) in complexity. Therefore, the entire algorithms computational complexity's worst case should be O(N * log N).
+- **1st Step**: The initial finding of hits over the specified SNR was handled entirely by `argrelmax()` imported from cusignal. The relative maxima was computed, a mask of data greater than the SNR threshold was computed, and any relative maxima above this theshold were returned. This maxima finding removeed the possibility of returning a plateau as the `argrelmax()` function specifically finds relative maxima. This first step was executed on the GPU with a script that can be found at <https://github.com/UCBerkeleySETI/hyperseti/blob/master/hyperseti/peak.py>.
+- **2nd Step**: The second step took identified hits from the first step, identified channels and driftrates within tolerances, and returned the hit with the max SNR. The grouping of channels was perfomed as "boxcars". The boxcar was the same concept as the window calculation performed in turboSETI for maximum possible drift rate and number of frequency bins over. However, unlike turboSETI and SETIcore where the width was set by default to 1, hyperSETI allowed the user to specify the boxcar width. This allowed for greater specificity in searching for particular signal bandwidths. As this second step operated only on the hits found in the first step, the implementation was CPU based.
 
 ### SETIcore
 
-###### Dedoppler
+#### Dedoppler
 
-SETIcore makes use of the Taylor-Tree algorithm. Discussed in greater detail above in turboSETI's dedoppler algorithm section, the Taylor-Tree provides an improved theoretical performance as compared to the Brute-Force algorithm. This optimized algorithm has O(N * N * log N) computational complexity.
+SETIcore made use of the Taylor-Tree algorithm. Discussed in greater detail above in turboSETI's dedoppler algorithm section, the Taylor-Tree provides an improved theoretical performance as compared to the Brute-Force algorithm. This optimized algorithm has O(N * N * log N) computational complexity.
 
-SETIcore, like hyperSETI above, is specifically implemented to run on the GPU. As SETIcore is implemented in C++ and CUDA, the low-level nature of these also provided improved performace. The Taylor-Tree kernel was implemented directly in CUDA. This manual programming of the GPU execution allowed maximum performace. The kernel can be found on lines 15-164 of the CUDA script at <https://github.com/lacker/seticore/blob/master/dedoppler.cu>.
+SETIcore, like hyperSETI above, was specifically implemented to run on the GPU. As SETIcore is implemented in C++ and CUDA, the low-level nature of these also provided improved performace. The Taylor-Tree kernel was implemented directly in CUDA. This manual programming of the GPU execution allowed maximum performace. The kernel can be found on lines 15-164 of the CUDA script at <https://github.com/lacker/seticore/blob/master/dedoppler.cu>.
 
-###### Hit-Search
+#### Hit-Search
 
-The hit-search algorithm implemented by SETIcore is a two-step iterative process. The first step iterates through the data gathering information about top hit candidates. The second step involves iterating through all of the identified hits from the first step and determining the top hit within the given window. The main CUDA script containing both steps of iterations can be found at <https://github.com/lacker/seticore/blob/master/dedoppler.cu>. The function named `findTopPathSums()` found at line 167 handles the first step, and the second step can be found from line 354 on. Similar to turboSETI above, the complexity of the entire algorithm was O(N * log N) given the linear search nature of the first step and the reduced dataset of only a few candidate hits in the second step. However, as the first step was GPU implemented and the second step CPU implemented, the actual proportional performance was not easily inferred.
+The hit-search algorithm implemented by SETIcore was a two-step iterative process. The first step iterated through the data gathering information about top hit candidates. The second step involved iterating through all of the identified hits from the first step and determining the top hit within the given window. The main CUDA script containing both steps of iterations can be found at <https://github.com/lacker/seticore/blob/master/dedoppler.cu>. The function named `findTopPathSums()` found at line 167 handled the first step, and the second step can be found from line 354 on. Similar to turboSETI above, the complexity of the entire algorithm was O(N * log N) given the linear search nature of the first step and the reduced dataset of only a few candidate hits in the second step. However, as the first step was GPU implemented and the second step CPU implemented, the actual proportional performance was not easily inferred.
 - **1st Step**: As SETIcore's implementation was not designed to be modular, the first step operated on data that comes directly from the output of the Taylor-Tree dedoppler algorithm. The direct CUDA implementation of both meant that the data stayed in the GPU device memory from the previous algorithm. From the Taylor-Tree output buffer path sums, the largest path sum along a column was identified.
 - **2nd Step**: The second steps was comprised of a few subsections. The data on the device was first copied from the GPU back to the host CPU. Then, the median and standard deviation were calculated. The window of possible frequency bins was determined, and each frequency within this window was iterated through to determine the hit with the highest SNR within the window. The identification of this top hit meant there were no redundant hits reported.
 
@@ -338,7 +338,7 @@ The hit-search algorithm implemented by SETIcore is a two-step iterative process
 
 Important in any analysis, performance was measured. Although hyperSETI offered modular options to independently call the different algorithmic sections, the general use case was the running of the whole pipeleine from HDF5 datafile input to generated report of potentially interesting signals. Many test runs of each pipeleine were performed with both realistic, large, and multi-channel as well as downsampled, smaller, single coarse channel input datasets. To ensure the most reliable runtime comparisons, all processing was performed on Berkeley SETI Research Center's Breakthrough Listen blpc1 server. This computing system included a TITAN Xp GPU which was used for running all GPU implementations.
 
-###### Single Coarse Channel Input
+#### Single Coarse Channel Input
 
 The initial benchmarking involved collection of runtimes for a simplified input dataset. The dataset chosen was a previously collected observation of the Voyager-1 interstellar space probe's communication signal. Though produced by humans, the extraterrestrial origin of the signal made the observation a perfect dataset to verify proper function of the different pipelines. This single_coarse_guppi_59046_80036_DIAG_VOYAGER-1_0011.rawspec.0000.h5 file is frequently used for testing code and can be found at <https://blpd14.ssl.berkeley.edu/voyager_2020/single_coarse_channel/>.
 
@@ -348,7 +348,7 @@ For this given input file, each pipeline was run 10 times. The parameters of max
 
 As expected, the CPU performance was the slowest, with significant improvement by all GPU implementations. The Python GPU implementations displayed comparable runtimes with SETIcores low-level CUDA and C++ implementation demonstrating the expected improvement in performance. While the turboSETI and hyperSETI Python implementations were expected to be slower as compared to SETIcore, what was unexpected was their overall similar runtimes given the significant difference in theoretical computational complexity between the Brute-Force and Taylor-Tree algorithms.
 
-###### Multi-Channel Input
+#### Multi-Channel Input
 
 The input was changed to a multi-channel and larger dataset to test the pipelines in more true to use conditions. The dataset used was a general obsearvation dataset frequently used in performance testing provided by Kevin Lacker. This dataset was specifically lacking in signals exhibiting doppler drift to verify the pipeline's function.
 
@@ -376,7 +376,7 @@ The waterfall plot of the multi-channel input data was included below.
 
 ### Output Comparison
 
-After two of the test runs of each pipeline, the output report files were saved for comparison. These two files were compared to eachother to verify the consistency between runs of the same pipeline, as well as to the output reports across pipelines. These output report files can be found in their pipeline respective folder at this parent directory <https://github.com/KevinJordanENG/BSRC-dev/tree/master/dedoppler>.
+After two of the test runs of each pipeline, the output report files were saved for comparison. These two files were compared to each other to verify the consistency between runs of the same pipeline, as well as to the output reports across pipelines. These output report files can be found in their pipeline respective folder at this parent directory <https://github.com/KevinJordanENG/BSRC-dev/tree/master/dedoppler>.
 
 The output report file types were not consistent across pipelines with turboSETI and SETIcore outputting .dat files, and hyperSETI .csv files. Also, the fields of these reports were not consistent with turboSETI and SETIcore again matching format and hyperSETI providing less values. The metadata from the input file was better maintained and transferred to the turboSETI and SETIcore output reports.
 
@@ -389,7 +389,7 @@ The Voyager-1 signal's frequency was reported by each pipeline as follows:
 - **hyperSETI**: 8419.542730785906 MHz
 - **SETIcore**: 8419.542731 MHz
 
-Minus rounding errors, these pipelines were demonstrated to provide equal results identifying frequency of the doppler drifting signal.
+Minus rounding errors, these pipelines were demonstrated to provide equal results identifying the frequency of the doppler drifting signal.
 
 The SNR for the above frequencies were reported by each pipeline as follows:
 - **turboSETI**: 192.893814
@@ -412,28 +412,46 @@ Again, Voyager-1's signal can be clearly seen, demonstrating the proper function
 
 As expected, there were no meaningful results reported for the pipeline runs given the input file with no interesting signals present.
 
-###### Oddities
+#### Oddities
 
-SETIcore and hyperSETI produced empty report files when given the dataset lacking doppler drifting signals. However, turboSETI's report contained lmany isted hits. This was likely resulted due to the way turboSETI preprocessed input data and the physical instrumentation used in collecting the radio observation. This was suggested by the 3 MHz cadence of these reported hits. When the frequencies associated with these reported hits were investigated, there was found to be no signal present. A waterfall plot showing this was included below.
+SETIcore and hyperSETI produced empty report files when given the dataset lacking doppler drifting signals. However, turboSETI's report contained many listed hits. This likely resulted due to the way turboSETI preprocessed input data and the physical instrumentation used in collecting the radio observation. This was suggested by the 3 MHz cadence of these reported hits. When the frequencies associated with these reported hits were investigated, there was found to be no signal present. A waterfall plot showing this was included below.
 
 ![Empty turboSETI Waterfall Output](/dedoppler/turboseti/pltw16x65536_empty.png)
 
-hyperSETI reported two additional signal of interest hits as compared to turboSETI and hyperSETI. These were determined to be the side two data communication sidebands of the main carrier signal found above by turboSETI and SETIcore. This demonstrated that hyperSETI's hit-search algorithm was of greater sensitivity and different in implementation than the other pipelines. As these two sideband signals are relatively close to the carrier signal's frequency, it is possible that these were eliminated as duplicate hits in neighboring frequency bins through the second iterative step of both turboSETI and SETIcore. A waterfall plot of one of these sidebands was included below.
+hyperSETI reported two additional signal of interest hits as compared to turboSETI and hyperSETI. These were determined to be the side two data communication sidebands of the main carrier signal found above by turboSETI and SETIcore. This demonstrated that hyperSETI's hit-search algorithm was of greater sensitivity and different in implementation than the other pipelines. As these two sideband signals were relatively close to the carrier signal's frequency, it is possible that these were eliminated as duplicate hits in neighboring frequency bins through the second iterative step of both turboSETI and SETIcore. A waterfall plot of one of these sidebands was included below.
 
 ![Sideband Signal hyperSETI](/dedoppler/hyperseti/pltwsingle_coarse_hyper_out.png)
 
 ## Conclusions
 
-Through this work benefits, drawbacks, and challenges were made clear. The relative performancees, ease of use, and resulting outputs were considered holistically in the hopes to elucidate the best options and strategies in the implementation of a doppler drifting signal SETI pipeline.
+Through this work benefits, drawbacks, and challenges were made clear. The relative performances, ease of use, and resulting outputs were considered holistically in the hopes to elucidate the best options and strategies in the implementation of a doppler drifting signal SETI pipeline.
 
-With performed testing, it was found that there was between a 12 and 24 factor of improved performance between the lowest and highest performant pipelines. The use of GPUs and largely parallel processing of the main algorithm sections was the largest contributing factor in increased performance. The differences in turboSETI's CPU and GPU implementation well supported this, as all other parts of the pipeline were the same. A average factor of 5 in spreedup by swithcing to GPU processing was observed as compared to the CPU implementation.
+With performed testing, it was found that there was a between 12 and 24 factor of improved performance between the lowest and highest performant pipelines. The use of GPUs and largely parallel processing of the main algorithm sections was the largest contributing factor in increased performance. The differences in turboSETI's CPU and GPU implementation well supported this as all other parts of the pipeline were the same. A average factor of 5 in spreedup by swithcing to GPU processing was observed as compared to the CPU implementation.
 
 By and large, the benefits of using low-level and close to hardware languages such as C++ and CUDA as compared to higher level Python scripts was well demonstrated. As both turboSETI's GPU implementaion and SETIcore's implementation used the same Taylor-Tree dedoppler algorithm and iterative hit-search, the language of implementation was considered to be the fundamental difference leading to changes in performance.
+
+Considereing the algorithmic complexity, it was noted that although imported library functions may ease the implementation and streamline code, the black-box nature restricts the amount of usable data in regards to internal functioning. In this way, optimizations and analyses become difficult if not impossible without revising the implemntation. Specifically hyperSETI's hit-search and the use of an imported maxima finding function was of concern. While the runtimes of hyperSETI were comparable to turboSETI's GPU implementation, the mechanism causing the difference in comparative runtime between the smaller and larger dataset was not able to be identified due to the black-box effect of the `cusignal.argrelmax()` function. While the O(N) nature of a linear search provides less than optimal performance, knowing the internal logic of this algorithm allows optimization based on the function required and supports analysis.
+
+While the hit-search black-box problem was apparent, so was the benefit of using the Taylor-Tree as compared to the Brute-Force approach in the dedoppler algorithm. An acceleration factor of approximately 1.68 was noted in the comparison of hyperSETI's Brute-Force approach to GPU turboSETI's Taylor-Tree. The higher performace of turboSETI's GPU implementation with the larger dataset tracked with the theorized performance loss in hyperSETI due to the base level O(N * N * N) complexity of the Brute-Force approach.
+
+Similar output results were obtained from running each pipeline, though not identical. The logical differences in implementation between the very similar turboSETI and SETIcore, and the different hyperSETI led to notable difference in hit finding sensitivity. While the first two identified only the main carrier signal from Voyager-1, hyperSETI additionally identified the sideband data signals. The method in which the SNR was calculated between implementations was also apparent, with no two pipelines producing the same result. This however, did not affect the correct identification of the doppler drifting signal's central frequency. All three pipelines precisely identified this to within a 0.0000003 MHz difference due soley to the differnce in the stored value's precision. As this was the entire purpose of these software pipelines, the output was considered to be functionally equivalent. There was an output oddity while running turboSETI on the multi-channel datafile, though this was discussed in more detail above.
+
+While the installation was not tested, the inferred complexity of each was comparable. Depending on the user's comfortability in compiling C++ programs vs adding packages to Python, one might prove more challenging. The installation was the one consistently well documented part of each pipeline's codebase, therfore would not be expected to cause undue setup difficulty. Once installed however, turboSETI's greater depth and spread of documentation provided much greater ease of use. As the workhorse of the three, this was not surprising, though the stark lack of documentation in the other two could prove challenging for those looking to further develop these tools.
+
+Modularity was supported in the individual algorithm sections within hyperSETI. While beneficial for those looking to develop similar pipelines, the general use case did not seem to necessitate this.
+
+## Recommendations & Closing Remarks
+
+Based on the above presented conclusions, a framework of what would produce an optimized doppler drifting signal SETI pipeline can be devised. This would include native GPU processes wherever possible, the use of reduced computationally complex algorithms such as the Taylor-Tree, and implementation in a low-level and close to harware language. Additionally, it is noted that optimization is most possible when the underlying function of all algorithms providing heavy lifting services are known and analysable.
+
+While modularity was not found to be needed in the general use case for a dedoppler SETI pipeline, if the dedopper algorithm section itself was a module, another module could potentially be added supporting dedispersion processing. This would increase the use case for the pipeline as it would support more general transient astronomy uses as discussed above in turboSETI's Dedoppler section. As these are mathematically similar problems, the hit-search module would likely need only small modifications to accomodate this added module. The potential for this described pipeline to accelerate SETI science and astronomy make it an ideal candidate for further research and development.
+
+It is worth noting that there are some additional functionalities available in each pipeline not discussed here. turboSETI's full install included seperate plotting functions, and event finding algorithms. An event is defined as strong narrowband signals associated with multiple hits across ON target observations. hyperSETI provided optional dedoppler kernels using the concept of spectral kurtosis. As these features were optional, not present in all pipelines, and non vital to the core functionality of the dedoppler signal search, their descriptions were omitted. Further information can be found directly in each pipeline's respective codebase listed at the beginning of this document.
 
 ## Future Work
 
 To build on the benchmark metrics above, an investigation and benchmarking of the runtimes and performace of the individual algorithm blocks would be a beneficial endeavor. This information can then be used in the development and optimization of the most needing sections of the pipeline.
 
-A further goal would be to look at taking the best functioning algorithm blocks, and implementing a comparable pipeline in Julia to maintian the best qualities of the high-level and easy to understand Python pipelines, and the low-level performance benefits of SETIcore.
+A further goal would be taking the best functioning algorithm blocks and above recommendations, and integrating them into a comparable pipeline developed in Julia. Julia provides simplified access to GPU processes as well an active ecosystem of packages. This would maintian the best qualities of the high-level and easy to understand Python pipelines, and the low-level performance benefits of SETIcore.
 
 *July 13th, 2022 - Kevin Jordan and Max Hawkins with support from Dave MacMahon and Daniel Czech*
