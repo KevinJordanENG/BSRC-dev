@@ -338,7 +338,7 @@ The hit-search algorithm implemented by SETIcore was a two-step iterative proces
 
 Important in any analysis, performance was measured. Although hyperSETI offered modular options to independently call the different algorithmic sections, the general use case was the running of the whole pipeleine from HDF5 datafile input to generated report of potentially interesting signals. Many test runs of each pipeleine were performed with both realistic, large, and multi-channel as well as downsampled, smaller, single coarse channel input datasets. To ensure the most reliable runtime comparisons, all processing was performed on Berkeley SETI Research Center's Breakthrough Listen blpc1 server. This computing system included a TITAN Xp GPU which was used for running all GPU implementations.
 
-#### Single Coarse Channel Input
+### Single Coarse Channel Input
 
 The initial benchmarking involved collection of runtimes for a simplified input dataset. The dataset chosen was a previously collected observation of the Voyager-1 interstellar space probe's communication signal. Though produced by humans, the extraterrestrial origin of the signal made the observation a perfect dataset to verify proper function of the different pipelines. This single_coarse_guppi_59046_80036_DIAG_VOYAGER-1_0011.rawspec.0000.h5 file is frequently used for testing code and can be found at <https://blpd14.ssl.berkeley.edu/voyager_2020/single_coarse_channel/>.
 
@@ -348,7 +348,7 @@ For this given input file, each pipeline was run 10 times. The parameters of max
 
 As expected, the CPU performance was the slowest, with significant improvement by all GPU implementations. The Python GPU implementations displayed comparable runtimes with SETIcores low-level CUDA and C++ implementation demonstrating the expected improvement in performance. While the turboSETI and hyperSETI Python implementations were expected to be slower as compared to SETIcore, what was unexpected was their overall similar runtimes given the significant difference in theoretical computational complexity between the Brute-Force and Taylor-Tree algorithms.
 
-#### Multi-Channel Input
+### Multi-Channel Input
 
 The input was changed to a multi-channel and larger dataset to test the pipelines in more true to use conditions. The dataset used was a general obsearvation dataset frequently used in performance testing provided by Kevin Lacker. This dataset was specifically lacking in signals exhibiting doppler drift to verify the pipeline's function.
 
@@ -357,6 +357,78 @@ As this input file was much larger, a reduced number of trial runs were performe
 ![Multi-Channnel Benchmark Plot](/dedoppler/plot_multi_cmd.png)
 
 Similar to the single channel reduced dataset above, the CPU implementation was demonstrated to be the least performant. What was different as compared to the smaller dataset was the comparative decrease in performace of hyperSETI as compared to turboSETI's GPU implementation.
+
+### Nsight Systems and Individual Algorithm Analysis
+
+To gain further insight into the execution of the main algorithm sections, NVIDIA's Nsight Systems was used. Nsight Systems provided various tools useful in gathering more precise data on program execution. This included detailed CPU vs GPU usage, active threads, execution timeline information, and memory management and allocation information. As Nsight Systems is designed for GPU applications, the turboSETI CPU implementation was not tested or included here. Additionally, only the single coarse channel input file was used in the profiling for simplicity.
+
+To allow compatability from the Berkeley SETI Research Center's Breakthrough Listen blpc1 server used for the GPU processing and the local machine used for the GUI inspection of the reports, the 2020.3.2 release version of Nsight Systems was used. As the command line utility of all dedoppler pipelines was used in testing, the command line interface for Nsight Systems allowed seamless and easy testing. The syntax of `nsys profile <application> [application-arguments]` was entered in the terminal and run for each pipeline.
+
+#### turboSETI
+
+Included in the image below was the entire turboSETI run, from input HDF5 file to output report creation. Seen on the left was the percentage breakdown of all program threads and processes. The main window showed the individual processes and their execution in a timeline format. This allowed visualization of how the algorithm runtime and execution steps were broken down. Notable was how little of the total runtime was spent executing the dedoppler and hit-search algorithms in the GPU. Only 0.405 seconds or 5.52% of the total runtime of turboSETI was executed in the GPU. The GPU execution was shown in blue in the bottom right of the image below.
+
+![nsys profile turboSETI full view](/dedoppler/GPU_reports/nsysTurboWhole.png)
+
+The report timeline was zoomed to more clearly view the algorithm blocks of interest. Included below, the image highlighted the HDF5 file loading processes in the CPU and ended with the memory copy from the GPU device back to the CPU host. More distinguishable was the noncontinuous execution of the dedoppler and hit-search kernel.
+
+![nsys profile turboSETI zoom view 1](/dedoppler/GPU_reports/nsysTurboZoom1.png)
+
+The zoom was increased to allow inspection of the dedoppler and hit-search kernel execution. As only the 1st step of the hit-search was GPU implemented, further discussion in this Nsight Systems section will refer to this as simply the hit-search. This was true accross all pipelines. As noted above, these kernels executed noncontinuously in an alternating repetetive pattern. First, the Taylor-Tree dedoppler kernel was executed, next the hit-search executed, and lastly a memory shuffle (Memcpy DtoD) was executed within the GPU. This pattern was repeated numerous times. The total runtime of the Taylor-Tree dedoppler kernel was 136.740 milliseconds, with the hit-search runtime totalling 100.753 milliseconds. The image below detailed one cycle of the kernel execution pattern.
+
+![nsys profile turboSETI zoom view 2-1](/dedoppler/GPU_reports/nsysTurboZoom2-1.png)
+
+The image below highlighted the memory management strategy. The data was asynchronously copied from the GPU back to the host while the dedoppler and hit-search kernels executed. This reduced the needed time to copy all of the memory at the end of execution. Worth noting however, was the very high percentage of time spent shuffling memory within the GPU. It was shown that 87% of all memory transfers were within the GPU.
+
+![nsys profile turboSETI zoom view 2-2](/dedoppler/GPU_reports/nsysTurboZoom2-2.png)
+
+Overall, turboSETI included significant overhead in the CPU processes. The strategy to copy memory while executing on new data is a well known optimization technique and was well implemented here. However, the significant amount of time spent shuffling memory within the GPU was questionable.
+
+#### hyperSETI
+
+The image included below detailed the entire run of hyperSETI. Immediately it is noticable the greater proportion of time executing in the GPU. The GPU execution totalled 6.781 seconds of runtime and 37.16% of total runtime.
+
+![nsys profile hyperSETI full view](/dedoppler/GPU_reports/nsysHyperWhole.png)
+
+The report timeline was zoomed to more clearly view the algorithm blocks of interest. hyperSETI implemented the individual algorithm blocks as seperate functions. While flexibility was increased doing this, it was clear that the overhead associated with copying memory from the device back to the host after each algorithm block had significant impact on performance. This DtoH memory copy was highlighted in the image included below and accounted for 82.38% of total GPU execution runtime.
+
+![nsys profile hyperSETI zoom view 1](/dedoppler/GPU_reports/nsysHyperZoom1.png)
+
+The zoom was increased to allow inspection of the dedoppler and hit-search kernel execution. The dedoppler kernel was highlighted in the image below. The total runtime of the Brute-Force implemented kernel was found to be 343.550 milliseconds. Again, the image clearly shows long periods of memory copying after the dedoppler kernel's execution.
+
+![nsys profile hyperSETI zoom view 2-1](/dedoppler/GPU_reports/nsysHyperZoom2-1.png)
+
+The hit-search implemented by hyperSETI made use of the `argrelmax()` external function from cusignal. This function was found to be a conglomerate of various other functions shown as the 96 other kernels underneath the dedoppler kernel in the image below. One of these kernels was highlighted to clarify where the hit-search algorithm was being executed. The total runtime of all combined kernels supporting the hit-search algorithm was 984.384 milliseconds.
+
+![nsys profile hyperSETI zoom view 2-2](/dedoppler/GPU_reports/nsysHyperZoom2-2.png)
+
+Again as in turboSETI, hyperSETI included significant overhead in CPU preprocessing. While the dedoppler algorithm should have been more computationally intensive than the hit-search, the hit-search demonstrated notably longer runtime. This gives a clear warning of using seemingly simple imported functions without understanding how they mathematically process data. Also as mentioned, the independent functions and modularity necessitating the memory copy after each algorithm block execution was a significant addition of runtime.
+
+#### SETIcore
+
+The image included below detailed the entire run of SETIcore. Compared to both above pipelines, the total runtime of SETIcore was greatly reduced. A significant proportion of the runtime was allocation of memory, unique to SETIcore. The GPU execution totalled 0.192 seconds of runtime and 12.83% of total runtime.
+
+![nsys profile SETIcore full view](/dedoppler/GPU_reports/nsysCoreWhole.png)
+
+The report timeline was zoomed to more clearly view the algorithm blocks of interest. Included below, the image highlighted the HDF5 file loading processes in the CPU and ended with the end of the polling processes.
+
+![nsys profile SETIcore zoom view 1](/dedoppler/GPU_reports/nsysCoreZoom1.png)
+
+The zoom was increased to allow inspection of the GPU kernels' execution. SETIcore included a data preprocessing step executed on the GPU to sum the columns of the input data. This was highlighted in the image below.
+
+![nsys profile SETIcore zoom view 2](/dedoppler/GPU_reports/nsysCoreZoom2.png)
+
+The zoom was increased further to allow inspection of the dedoppler and hit-search kernel execution. Highlighted in the image below, the Taylor-Tree dedoppler kernel was executed repeatedly. The total dedoppler kernel execution time was 136.514 milliseconds.
+
+![nsys profile SETIcore zoom view 3-1](/dedoppler/GPU_reports/nsysCoreZoom3-1.png)
+
+The hit-search implemented by SETIcore was very low in runtime proportional to the dedoppler algorithm as shown in the image below. The total hit-search runtime was found to be 23.823 milliseconds.
+
+![nsys profile SETIcore zoom view 3-2](/dedoppler/GPU_reports/nsysCoreZoom3-2.png)
+
+Many things were very well implemented in SETIcore. The memory copying was performed concurrently to the kernel execution totalling only 1.87% of runtime or 3.654 milliseconds. The overall performance increase detailed in the general benchmarking increased in clarity through this analysis with Nsight Systems.
+
+The repository with the full output report files can be found at <https://github.com/KevinJordanENG/BSRC-dev/tree/master/dedoppler/GPU_reports>.
 
 ## Input and Output Comparison Between Pipelines
 
@@ -438,7 +510,7 @@ Similar output results were obtained from running each pipeline, though not iden
 
 While the installation was not tested, the inferred complexity of each was comparable. Depending on the user's comfortability in compiling C++ programs vs adding packages to Python, one might prove more challenging. The installation was the one consistently well documented part of each pipeline's codebase, therfore would not be expected to cause undue setup difficulty. Once installed however, turboSETI's greater depth and spread of documentation provided much greater ease of use. As the workhorse of the three, this was not surprising, though the stark lack of documentation in the other two could prove challenging for those looking to further develop these tools.
 
-Modularity was supported in the individual algorithm sections within hyperSETI. While beneficial for those looking to develop similar pipelines, the general use case did not seem to necessitate this.
+Modularity was supported in the individual algorithm sections within hyperSETI. While beneficial for those looking to develop similar pipelines, the general use case did not seem to necessitate this. Additionally, through testing with Nsight Systems, this modularity was shown to increase overhead by necessitating memory transfers between the device and host after each algorithm block's execution. The use of concurrent memory copying from GPU device back to host while executing on the next data had performance benefits demonstrated in this work.
 
 ## Recommendations & Closing Remarks
 
@@ -450,8 +522,8 @@ It is worth noting that there are some additional functionalities available in e
 
 ## Future Work
 
-To build on the benchmark metrics above, an investigation and benchmarking of the runtimes and performace of the individual algorithm blocks would be a beneficial endeavor. This information can then be used in the development and optimization of the most needing sections of the pipeline.
+To build on the benchmark metrics above, an investigation into the runtimes and performace of the data preprocessing, file inputs, and output report generation would be a beneficial endeavor. As the focus of the benchmarking was primarily the main two algorithms of dedoppler and hit-search, these above sections of the pipeline were not investigated. However, they accounted for a significant proportion of the runtime, and would be beneficial to explore.
 
 A further goal would be taking the best functioning algorithm blocks and above recommendations, and integrating them into a comparable pipeline developed in Julia. Julia provides simplified access to GPU processes as well an active ecosystem of packages. This would maintian the best qualities of the high-level and easy to understand Python pipelines, and the low-level performance benefits of SETIcore.
 
-*July 13th, 2022 - Kevin Jordan and Max Hawkins with support from Dave MacMahon and Daniel Czech*
+*July 13th, 2022 [updated July 27th, 2022] - Kevin Jordan and Max Hawkins with support from Dave MacMahon and Daniel Czech*
