@@ -386,7 +386,7 @@ Overall, turboSETI included significant overhead in the CPU processes. The strat
 
 #### hyperSETI
 
-The image included below detailed the entire run of hyperSETI. Immediately it is noticable the greater proportion of time executing in the GPU. The GPU execution totalled 6.781 seconds of runtime and 37.16% of total runtime.
+The image included below detailed the entire run of hyperSETI. Immediately it was noticable the greater proportion of time executing in the GPU. The GPU execution totalled 6.781 seconds of runtime and 37.16% of total runtime.
 
 ![nsys profile hyperSETI full view](/dedoppler/GPU_reports/nsysHyperWhole.png)
 
