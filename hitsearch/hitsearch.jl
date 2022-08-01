@@ -40,4 +40,6 @@ fdmat = intfdr(spect, rates)
 heatmap(fdmat', yflip=true)
 
 # Hitsearch algorithm development. 2 step iterative approach
-# step1: calculate median & standard deviation then find all 
+# step1: calculate median & standard deviation then find all with SNR above thresh
+# setp2: iterate through all potential duplicates within max drift possible window
+
