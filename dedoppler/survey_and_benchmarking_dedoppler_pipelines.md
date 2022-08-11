@@ -408,11 +408,11 @@ Many things were very well implemented in SETIcore. The memory copying was perfo
 
 To summarize the results obtained from the Nsight Systems analysis, the table below was included.
 
-| x | GPU Total Runtime (ms) | GPU Runtime % | Dedoppler Runtime (ms) | Hit-Search Runtime (ms) | Highest Memory Use |
+|  | GPU Total Runtime (ms) | GPU Runtime % | Dedoppler Runtime (ms) | Hit-Search Runtime (ms) | Highest Memory Use |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| **turboSETI** | 0.405 s | 5.52% | 136.740 ms | 100.753 ms | DtoD: 141.366 ms |
-| **hyperSETI** | 6.781 s | 37.16% | 345.550 ms | 984.384 ms | DtoH: 6322.593 ms |
-| **SETIcore** | 0.192 s | 12.83% | 136.514 ms | 23.823 ms | DtoH & Unified: 3.654 ms |
+| **turboSETI** | 0.405s | 5.52% | 136.740ms | 100.753ms | DtoD: 141.366ms |
+| **hyperSETI** | 6.781s | 37.16% | 345.550ms | 984.384ms | DtoH: 6322.593ms |
+| **SETIcore** | 0.192s | 12.83% | 136.514ms | 23.823ms | DtoH & Unified: 3.654ms |
 
 The repository with the full output report files can be found at <https://github.com/KevinJordanENG/BSRC-dev/tree/master/dedoppler/GPU_reports>.
 
