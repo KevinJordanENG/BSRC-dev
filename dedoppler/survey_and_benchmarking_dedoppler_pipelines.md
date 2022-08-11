@@ -408,7 +408,7 @@ Many things were very well implemented in SETIcore. The memory copying was perfo
 
 To summarize the results obtained from the Nsight Systems analysis, the table below was included.
 
-|  | GPU Total Runtime (ms) | GPU Runtime % | Dedoppler Runtime (ms) | Hit-Search Runtime (ms) | Highest Memory Use |
+|  | GPU Total Runtime (s) | GPU Runtime (%) | Dedoppler Runtime (ms) | Hit-Search Runtime (ms) | Highest Memory Use |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | **turboSETI** | 0.405s | 5.52% | 136.740ms | 100.753ms | DtoD: 141.366ms |
 | **hyperSETI** | 6.781s | 37.16% | 345.550ms | 984.384ms | DtoH: 6322.593ms |
